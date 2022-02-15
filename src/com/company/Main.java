@@ -1,24 +1,36 @@
 package com.company;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Образец предложения:");
-        String mainSentence = "it cannot be, made larger. it cannot be, made smaller. you cannot change one, of the characters inside it.";
+        //String mainSentence = "it cannot be, made larger. it cannot be, made smaller. you cannot change one, of the characters inside it.";
+        String mainSentence = getFromFile();
+
         System.out.println(mainSentence);
         System.out.println("1. Разбить текст по словам:");
         String[] splitWords = splitToWords(mainSentence);
         System.out.println(Arrays.toString(splitWords));
+
         System.out.println("2. Привести первую букву первого слова текста в заглавную:");
         String[] firstWord = firstWordToUpperCase(mainSentence);
         System.out.println(String.join(" ", firstWord));
+
         System.out.println("3. Каждое слово после точки начинаться с заглавной буквы:");
         String[] wordsAfterDot = eachWordAfterDotToUpperCase(firstWord);
         System.out.println(Arrays.toString(wordsAfterDot));
+
         System.out.println("4. Результат:");
         System.out.println(String.join(" ", wordsAfterDot));
+
+        saveToFile(wordsAfterDot);
+
     }
 
     public static String[] splitToWords(String sentence) {
@@ -44,5 +56,19 @@ public class Main {
             }
         }
         return newWordsArr3;
+    }
+
+    public static String getFromFile() throws IOException {
+        FileReader reader = new FileReader("attachments/InputText.txt");
+        Scanner scanner = new Scanner(reader);
+        String a = scanner.nextLine();
+        reader.close();
+        return a;
+    }
+
+    public static void saveToFile(String[] wordsAfterDot) throws IOException {
+        FileWriter writer = new FileWriter("attachments/OutPut.txt");
+        writer.write(String.join(" ", wordsAfterDot));
+        writer.close();
     }
 }
